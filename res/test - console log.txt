@@ -1,0 +1,102 @@
+**Neighbors Test
+Displaying the Neighbors of Room 2. Result is a list of the Neighbor's Room Number. Room Numbers start from 1.
+[16, 8]
+
+Displaying the Neighbors of Room 10. Result is a list of the Neighbor's Room Number. Room Numbers start from 1.
+[8, 9, 20, 11]
+
+The program also returns the object references for the neighbors.
+Displaying the List of Neighbor Objects for Room 2.
+[Room Num = 16, Room Name = Wine Cellar, Neighbors = [2], Items = [Item Num = 6, Item Room = 16, Item Name = Civil War Cannon, Item Damage = 3], coord = 17, 22, 20, 25, Room Num = 8, Room Name = Lanchester Room, Neighbors = [1, 2, 10, 13, 18], Items = [Item Num = 17, Item Room = 8, Item Name = Tight Hat, Item Damage = 2, Item Num = 20, Item Room = 8, Item Name = Loud Noise, Item Damage = 1], coord = 14, 12, 19, 18]
+
+Displaying the List of Neighbor Objects for Room 10.
+[Room Num = 8, Room Name = Lanchester Room, Neighbors = [1, 2, 10, 13, 18], Items = [Item Num = 17, Item Room = 8, Item Name = Tight Hat, Item Damage = 2, Item Num = 20, Item Room = 8, Item Name = Loud Noise, Item Damage = 1], coord = 14, 12, 19, 18, Room Num = 9, Room Name = Ball Room, Neighbors = [10, 12, 19], Items = [Item Num = 4, Item Room = 9, Item Name = Sharp Knife, Item Damage = 3], coord = 7, 4, 13, 10, Room Num = 20, Room Name = Closet, Neighbors = [10, 12, 1, 5], Items = [Item Num = 18, Item Room = 20, Item Name = Piece of Rope, Item Damage = 2], coord = 5, 12, 9, 15, Room Num = 11, Room Name = Nursery, Neighbors = [10, 18, 21], Items = [Item Num = 15, Item Room = 11, Item Name = Bad Cream, Item Damage = 1], coord = 13, 5, 16, 10]
+
+
+**List of Items in Specific Space.
+Program returns the list of objects of type items that are present in the particular Space.
+Displaying List of objects of type Items in Space 5.
+[]
+You will notice Space 5 (which is represented as index 4 in the input file) has no neighbors
+
+Displaying List of objects of type Items in Space 8.
+[Item Num = 17, Item Room = 8, Item Name = Tight Hat, Item Damage = 2, Item Num = 20, Item Room = 8, Item Name = Loud Noise, Item Damage = 1]
+
+Displaying List of objects of type Items in Space 15.
+[Item Num = 10, Item Room = 15, Item Name = Rat Poison, Item Damage = 2]
+
+
+**Room Details along with Neighbor room numbers and items list present in that room.
+Room Num = 1, Room Name = Trophy Room, Neighbors = [5, 6, 8, 20], Items = [Item Num = 13, Item Room = 1, Item Name = Pinking Shears, Item Damage = 2], coord = 8, 15, 14, 18
+Room Num = 2, Room Name = Pantry, Neighbors = [16, 8], Items = [Item Num = 9, Item Room = 2, Item Name = Billiard Cue, Item Damage = 2], coord = 17, 18, 21, 22
+Room Num = 3, Room Name = Foyer, Neighbors = [7, 4, 13], Items = [Item Num = 3, Item Room = 3, Item Name = Shoe Horn, Item Damage = 2, Item Num = 7, Item Room = 3, Item Name = Chain Saw, Item Damage = 4, Item Num = 12, Item Room = 3, Item Name = Big Red Hammer, Item Damage = 4], coord = 9, 24, 14, 27
+Room Num = 4, Room Name = Dining Hall, Neighbors = [3, 6, 7, 13], Items = [], coord = 9, 20, 14, 24
+Room Num = 5, Room Name = Guest Room, Neighbors = [1, 6, 20], Items = [], coord = 3, 15, 8, 18
+Room Num = 6, Room Name = Bathroom, Neighbors = [1, 4, 5], Items = [Item Num = 14, Item Room = 6, Item Name = Duck Decoy, Item Damage = 3, Item Num = 21, Item Room = 6, Item Name = Hair Comb, Item Damage = 2], coord = 4, 18, 9, 21
+Room Num = 7, Room Name = Drawing Room, Neighbors = [3, 4, 15], Items = [], coord = 3, 21, 9, 25
+Room Num = 8, Room Name = Lanchester Room, Neighbors = [1, 2, 10, 13, 18], Items = [Item Num = 17, Item Room = 8, Item Name = Tight Hat, Item Damage = 2, Item Num = 20, Item Room = 8, Item Name = Loud Noise, Item Damage = 1], coord = 14, 12, 19, 18
+Room Num = 9, Room Name = Ball Room, Neighbors = [10, 12, 19], Items = [Item Num = 4, Item Room = 9, Item Name = Sharp Knife, Item Damage = 3], coord = 7, 4, 13, 10
+Room Num = 10, Room Name = Master Suite, Neighbors = [8, 9, 20, 11], Items = [Item Num = 19, Item Room = 10, Item Name = Silken Cord, Item Damage = 3], coord = 9, 10, 14, 15
+Room Num = 11, Room Name = Nursery, Neighbors = [10, 18, 21], Items = [Item Num = 15, Item Room = 11, Item Name = Bad Cream, Item Damage = 1], coord = 13, 5, 16, 10
+Room Num = 12, Room Name = Armory, Neighbors = [9, 20, 19], Items = [Item Num = 5, Item Room = 12, Item Name = Revolver, Item Damage = 4], coord = 4, 5, 7, 12
+Room Num = 13, Room Name = Kitchen, Neighbors = [8, 3, 4], Items = [Item Num = 1, Item Room = 13, Item Name = Crepe Pan, Item Damage = 3], coord = 14, 18, 17, 25
+Room Num = 14, Room Name = Piazza, Neighbors = [], Items = [Item Num = 16, Item Room = 14, Item Name = Monkey Hand, Item Damage = 2], coord = 5, 27, 19, 29
+Room Num = 15, Room Name = Hedge Maze, Neighbors = [7], Items = [Item Num = 10, Item Room = 15, Item Name = Rat Poison, Item Damage = 2], coord = 2, 25, 5, 29
+Room Num = 16, Room Name = Wine Cellar, Neighbors = [2], Items = [Item Num = 6, Item Room = 16, Item Name = Civil War Cannon, Item Damage = 3], coord = 17, 22, 20, 25
+Room Num = 17, Room Name = Garage, Neighbors = [], Items = [Item Num = 8, Item Room = 17, Item Name = Broom Stick, Item Damage = 2, Item Num = 11, Item Room = 17, Item Name = Trowel, Item Damage = 2], coord = 20, 25, 22, 29
+Room Num = 18, Room Name = Gallery, Neighbors = [8, 11, 21], Items = [], coord = 16, 6, 20, 12
+Room Num = 19, Room Name = Library, Neighbors = [9, 12], Items = [Item Num = 2, Item Room = 19, Item Name = Letter Opener, Item Damage = 2], coord = 2, 2, 7, 5
+Room Num = 20, Room Name = Closet, Neighbors = [10, 12, 1, 5], Items = [Item Num = 18, Item Room = 20, Item Name = Piece of Rope, Item Damage = 2], coord = 5, 12, 9, 15
+Room Num = 21, Room Name = Green House, Neighbors = [11, 18], Items = [Item Num = 22, Item Room = 21, Item Name = Wooden Stick, Item Damage = 3], coord = 16, 2, 22, 6
+
+
+**Item Details.
+Item Num = 1, Item Room = 13, Item Name = Crepe Pan, Item Damage = 3
+Item Num = 2, Item Room = 19, Item Name = Letter Opener, Item Damage = 2
+Item Num = 3, Item Room = 3, Item Name = Shoe Horn, Item Damage = 2
+Item Num = 4, Item Room = 9, Item Name = Sharp Knife, Item Damage = 3
+Item Num = 5, Item Room = 12, Item Name = Revolver, Item Damage = 4
+Item Num = 6, Item Room = 16, Item Name = Civil War Cannon, Item Damage = 3
+Item Num = 7, Item Room = 3, Item Name = Chain Saw, Item Damage = 4
+Item Num = 8, Item Room = 17, Item Name = Broom Stick, Item Damage = 2
+Item Num = 9, Item Room = 2, Item Name = Billiard Cue, Item Damage = 2
+Item Num = 10, Item Room = 15, Item Name = Rat Poison, Item Damage = 2
+Item Num = 11, Item Room = 17, Item Name = Trowel, Item Damage = 2
+Item Num = 12, Item Room = 3, Item Name = Big Red Hammer, Item Damage = 4
+Item Num = 13, Item Room = 1, Item Name = Pinking Shears, Item Damage = 2
+Item Num = 14, Item Room = 6, Item Name = Duck Decoy, Item Damage = 3
+Item Num = 15, Item Room = 11, Item Name = Bad Cream, Item Damage = 1
+Item Num = 16, Item Room = 14, Item Name = Monkey Hand, Item Damage = 2
+Item Num = 17, Item Room = 8, Item Name = Tight Hat, Item Damage = 2
+Item Num = 18, Item Room = 20, Item Name = Piece of Rope, Item Damage = 2
+Item Num = 19, Item Room = 10, Item Name = Silken Cord, Item Damage = 3
+Item Num = 20, Item Room = 8, Item Name = Loud Noise, Item Damage = 1
+Item Num = 21, Item Room = 6, Item Name = Hair Comb, Item Damage = 2
+Item Num = 22, Item Room = 21, Item Name = Wooden Stick, Item Damage = 3
+
+
+**Displaying Target Details.
+Initial State of Target
+Target =  Doctor Lucky, Health = 50, Current Location = 1
+
+**Move Target
+New State of Target:
+Target =  Doctor Lucky, Health = 50, Current Location = 2
+
+**Called the Move Method of Target 5 more times
+New State of Target:
+Target =  Doctor Lucky, Health = 50, Current Location = 7
+
+**Called the Move Method of Target 14 more times
+New State of Target:
+Target =  Doctor Lucky, Health = 50, Current Location = 21
+
+**Called the Move Method of Target once
+Target =  Doctor Lucky, Health = 50, Current Location = 1
+
+We can see location can reset to Room 1. Calling the move method 4 more times
+New State of Target:
+Target =  Doctor Lucky, Health = 50, Current Location = 5
+
+
+The Graphical Representation of the World is available as an image in /res folder under the name world.jpeg.

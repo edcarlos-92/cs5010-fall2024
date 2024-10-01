@@ -1,0 +1,47 @@
+30 23 Doctor Lucky's Castle
+50 Doctor Lucky
+21
+15 8 17 13 Trophy Room
+18 17 21 20 Pantry
+24  9 26 13 Foyer
+20 9 23 13 Dining Hall 
+15  3 17 7 Guest Room 
+18 4 20  8 Bathroom  
+21  3 24  8 Drawing Room
+12 14 17 18 Lanchester Room
+ 4  7 9  12 Ball Room 
+10  9 14 13 Master Suite
+ 5 13  9 15 Nursery
+ 5  4 11  6 Armory
+18 14 24 16 Kitchen 
+27  5 28 18 Piazza
+25 2 28  4 Hedge Maze
+22 17 24 19 Wine Cellar
+25 20 28 21 Garage
+ 6 16 11 19 Gallery
+ 2  2  4  6 Library
+12  5 14  8 Closet
+ 2 16  5 21 Green House
+22
+12 3 Crepe Pan
+18 2 Letter Opener
+2 2 Shoe Horn
+8 3 Sharp Knife
+11 4 Revolver
+15 3 Civil War Cannon
+2 4 Chain Saw
+16 2 Broom Stick
+1 2 Billiard Cue
+14 2 Rat Poison
+16 2 Trowel
+2 4 Big Red Hammer
+0 2 Pinking Shears
+5 3 Duck Decoy
+10 1 Bad Cream
+13 2 Monkey Hand
+7 2 Tight Hat
+19 2 Piece of Rope
+9 3 Silken Cord
+7 1 Loud Noise
+5 2 Hair Comb
+20 3 Wooden Stick
