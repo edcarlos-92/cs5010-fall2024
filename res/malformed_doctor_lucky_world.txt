@@ -8,7 +8,7 @@
 15  3 17 7 Guest Room 
 18 4 20  8 Bathroom  
 21  3 24  8 Drawing Room
-12 14 17 18 Lanchester Room
+12 14 17 -18 Lanchester Room
  4  7 9  12 Ball Room 
 10  9 14 13 Master Suite
  5 13  9 15 Nursery

@@ -27,8 +27,8 @@ public final class WorldSetup implements World {
   private Target targetObj; // Target object
   private Map<Integer, ItemList> itemObjList; // Map of item objects
   private Map<Integer, Room> roomObjList; // Map of room objects
-  private Map<Integer, List<Room>> neighborTable; // Table of neighboring rooms
-
+  private Map<Integer, List<Room>> neighborTable; // Table of neighboring rooms 
+  
   /**
    * Constructs a WorldSetup instance with the specified file content.
    *
@@ -278,12 +278,32 @@ public final class WorldSetup implements World {
 
     graphicsObj.dispose();
 
+    //    try {
+    //ImageIO.write(bufferInstance, "jpeg", new File("C:/Users/EDCARLOS/eclipse-workspace/cs5010/"
+    //          + "m1-the-world/res/world.jpeg"));
+    //    } catch (IOException var9) {
+    //      var9.printStackTrace();
+    //    }
+    
+    
     try {
-      ImageIO.write(bufferInstance, "jpeg", new File("C:/Users/EDCARLOS/eclipse-workspace/cs5010/"
-          + "m1-the-world/res/world.jpeg"));
-    } catch (IOException var9) {
-      var9.printStackTrace();
+      // Get the path to the "res" directory relative to the application's root
+      String relativePath = "res/world.jpeg"; // Path relative to your JAR or project root
+      // Create a File object for the relative path
+      File outputFile = new File(relativePath);
+            
+      // Ensure that the directories in the path exist
+      // This will create the "res" directory if it doesn't exist
+      outputFile.getParentFile().mkdirs(); 
+      
+      // Write the image to the specified relative path
+      ImageIO.write(bufferInstance, "jpeg", outputFile);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+
+    
+    
   }
 
   /**
@@ -447,5 +467,20 @@ public final class WorldSetup implements World {
   public Target getTarget() {
     return this.targetObj;
   }
+  
+
+  public int getTotalRow() {
+    return totalRow;
+  }
+
+  public int getTotalCol() {
+    return totalCol;
+  }
+
+  public int getHealth() {
+    return health;
+  }
+  
+  
 }
 

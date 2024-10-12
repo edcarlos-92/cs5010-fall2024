@@ -1,0 +1,7 @@
+Exception in thread "main" java.io.FileNotFoundException: File Path is not correct. Please enter correct path and try again.
+	at driver.Main.main(Main.java:42)
+	
+	AND
+
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at driver.Main.main(Main.java:26)
