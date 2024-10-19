@@ -118,4 +118,24 @@ public class RoomTest {
     Room anotherRoom = new Room(1, "Entrance", itemList, new int[]{0, 0, 0, 0});
     assertEquals(room.hashCode(), anotherRoom.hashCode());
   }
+  
+  /**
+   * Test getting neighbors when no neighbors are set.
+   */
+  @Test
+  public void testGetNeighborsWhenNoNeighbors() {
+    // Ensure no neighbors are set
+    room.setNeighbor(new ArrayList<>());
+
+    // Check that the neighbor objects list is empty
+    List<Room> neighborObjects = room.getNeighborObject();
+    assertEquals(0, neighborObjects.size()); // Expecting size 0
+
+    // Check that the neighbor room numbers list is empty
+    List<Integer> neighborRoomNums = room.getNeighborRoomNum();
+    assertEquals(0, neighborRoomNums.size()); // Expecting size 0
+  }
+  
+  
+  
 }

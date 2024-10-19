@@ -24,7 +24,7 @@ This project represents the coursework for CS 5010 for Fall 2024. It implements 
 1. **Download the JAR File:** Locate the JAR file in the `/res` folder of the repository.
 2. **Run the JAR File:** Use the command line to execute the JAR file, providing the path to the input file as an argument.
    
-   `java -jar Project-KillDrLucky.jar {fully qualified path to}/res/dr_lucky_in_marios_castle.txt`
+   `java -jar m1-the-world.jar {fully qualified path to}/res/dr_lucky_in_marios_castle.txt`
 
 ## Which in my case is
 `java -jar m1-the-world.jar C:\Users\CARLOS-PC\eclipse-workspace\cs5010\m1-the-world\res\dr_lucky_in_marios_castle.txt`
