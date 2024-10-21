@@ -87,7 +87,7 @@ The file `M1TestOutput.txt` contains the output from one example run of Mileston
 3. Introduced the `setNeighbors` method in World to establish neighbor relationships among spaces.
 4. The `changeHealth()` method of Target has not been implemented due to unclear requirements and has been removed from the UML.
 
-**Changes from MILESTONE -2 UML_DIAGRAM_REFINED_DESIGN to MILESTONE -2 UML_DIAGRAM_UPDATED_REFACTORED_DESIGN:**
+**Changes from ` MILESTONE -2 UML_DIAGRAM_REFINED_DESIGN ` to ` MILESTONE -2 UML_DIAGRAM_UPDATED_REFACTORED_DESIGN `:**
 - The initial design didn't clarify the need for random numbers, but it became apparent later, leading to the following changes:
 1. The World Interface now contains only the necessary methods for the command controller.
 2. The controller interacts solely with the World Interface, not with any other interfaces in the model.
