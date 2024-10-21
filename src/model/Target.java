@@ -1,73 +1,61 @@
 package model;
 
 /**
- * Represents a target player in the game.
- * This class implements the Player interface and defines the properties and behaviors of a target.
+ * This is the Implementation class of the Target object which is 
+  derived from Player Interface. This class represents the details
+  of the target character in the game, like target's location, health,
+  and has method to move the target sequentially through the rooms.
  */
-public final class Target implements Player {
+public final class Target implements TargetInterface {
+  
   private final String targetName;
   private final int health;
   private int currentLocation;
   private final int roomCount;
 
   /**
-   * Constructs a Target object with the specified name, health, starting location, and room count.
-   *
-   * @param name          the name of the target
-   * @param healthStatus        the initial health of the target (must be positive)
-   * @param startLocation the initial location of the target
-   * @param roomCountTotal     the total number of rooms in the game
-   * @throws IllegalArgumentException if health is less than or equal to zero
+   * This is the constructor for initializing Target object's parameters.
+   * @param name This is name of the target.
+   * @param targetHealth This is the initial health of the target. Should be greater than 0.
+   * @param startLocation This is the initial start location of the target. Room Number
+    should be greater than 0 or less than total room count.
+   * @param totalRoomCount this is the total number of rooms that the target can traverse.
+   * @throws IllegalArgumentException throws exception if correct arguments are not passed.
    */
-  public Target(String name, int healthStatus, int startLocation, int roomCountTotal) 
+  public Target(String name, int targetHealth, int startLocation, int totalRoomCount) 
       throws IllegalArgumentException {
-    if (healthStatus <= 0) {
-      throw new IllegalArgumentException("Initial Health of Target must be a Positive value.");
-    } else {
-      this.targetName = name;
-      this.health = healthStatus;
-      this.currentLocation = startLocation;
-      this.roomCount = roomCountTotal;
+    if (name == null || "".equals(name) || targetHealth < 0 || startLocation < 1 
+        || startLocation > totalRoomCount || totalRoomCount < 0) {
+      throw new IllegalArgumentException("Invalid parameters passed for creating Target.");
     }
+    this.targetName = name;
+    this.health = targetHealth;
+    this.currentLocation = startLocation;
+    this.roomCount = totalRoomCount;
   }
-
-  /**
-   * Gets the current location of the target.
-   *
-   * @return the current location of the target
-   */
+  
+  @Override
   public int getLocation() {
     return this.currentLocation;
   }
-
-  /**
-   * Gets the health of the target.
-   *
-   * @return the health of the target
-   */
+  
+  @Override
   public int getHealth() {
     return this.health;
   }
-
-  /**
-   * Moves the target to the next room in a circular manner.
-   * If the target is in the last room, it moves back to the first room.
-   */
+  
+  @Override
   public void move() {
     if (this.currentLocation == this.roomCount) {
-      this.currentLocation = 1;
+      this.currentLocation = 1; 
     } else {
-      ++this.currentLocation;
+      this.currentLocation = this.currentLocation + 1; 
     }
-  }
+  } 
 
-  /**
-   * Returns a string representation of the target.
-   *
-   * @return a string describing the target's name, health, and current location
-   */
+  @Override
   public String toString() {
     return String.format("Target = %s, Health = %d, Current Location = %d", 
-        this.targetName, this.health, this.currentLocation);
+        this.targetName, this.health, this.currentLocation);    
   }
 }

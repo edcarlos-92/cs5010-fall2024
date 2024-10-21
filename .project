@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>m1-the-world</name>
+	<name>m2-synchronous-controller</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -16,7 +16,7 @@
 	</natures>
 	<filteredResources>
 		<filter>
-			<id>1728775219932</id>
+			<id>1729386380183</id>
 			<name></name>
 			<type>30</type>
 			<matcher>

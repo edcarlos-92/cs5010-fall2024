@@ -1,0 +1,255 @@
+==== Welcome to the World!! 🎮🌍 ====
+We need 1 Computer Controlled Player in the world 🤖
+We are adding one real quick... 🏃💨
+OK! Now Enter the Maximum number of ITEMS 🎒 the computer player is allowed to pick
+
+4
+Computer Controlled Player Created
+
+Enter Total Number of Human Players
+2
+
+Enter The Name Of Player 1 
+Carlos
+
+Enter Total Max Items Allowed For Player 1 To Pick (between 1 to 5)
+3
+
+Carlos, which Room do you want to enter first? Choose room Number from below options:
+1 Mushroom Room
+2 PowerUp Room
+3 Bowser Lair
+4 Warp Pipe Room
+5 Fire Flower Courtyard
+6 Star Chamber
+7 Yoshi Nest
+8 Underground Dungeon
+9 Lava Pit
+10 Goomba Garden
+11 Treasure Room
+12 Green House
+13 Question Block Vault
+14 Thwomp Hall
+15 Koopa Troop Hideout
+16 Bob-omb Factory
+17 Coin Vault
+18 Princess Peach Tower
+19 Boo's Haunt
+20 Chain Chomp Pen
+21 Cannon Room
+21
+
+Enter The Name Of Player 2 
+Doris
+
+Enter Total Max Items Allowed For Player 2 To Pick (between 1 to 5)
+2
+
+Doris, which Room do you want to enter first? Choose room Number from below options:
+1 Mushroom Room
+2 PowerUp Room
+3 Bowser Lair
+4 Warp Pipe Room
+5 Fire Flower Courtyard
+6 Star Chamber
+7 Yoshi Nest
+8 Underground Dungeon
+9 Lava Pit
+10 Goomba Garden
+11 Treasure Room
+12 Green House
+13 Question Block Vault
+14 Thwomp Hall
+15 Koopa Troop Hideout
+16 Bob-omb Factory
+17 Coin Vault
+18 Princess Peach Tower
+19 Boo's Haunt
+20 Chain Chomp Pen
+21 Cannon Room
+18
+
+=== IT'S TIME TO PLAY!! ===
+
+ It's Player N* 1 <<->> Carlos's Turn:
+
+==== Choose one of the following options ==== 
+1. Draw World
+2. Display Player Info
+3. Display Current Space(Room) Info
+4. Move
+5. Pick Item
+6. Look Around
+7. quit
+1
+World Image Created to the res/ folder
+
+ It's Player N* 1 <<->> Carlos's Turn:
+
+==== Choose one of the following options ==== 
+1. Draw World
+2. Display Player Info
+3. Display Current Space(Room) Info
+4. Move
+5. Pick Item
+6. Look Around
+7. quit
+2
+
+Player Num: 1
+Player Name: Carlos
+Player in Room: Num: 21 ( Cannon Room ) 
+Max Number of Items allowed to pick: 3
+Items Picked:
+
+
+ It's Player N* 1 <<->> Carlos's Turn:
+
+==== Choose one of the following options ==== 
+1. Draw World
+2. Display Player Info
+3. Display Current Space(Room) Info
+4. Move
+5. Pick Item
+6. Look Around
+7. quit
+3
+
+Room Num = 21, Room Name = Cannon Room, 
+Items Available:
+22. Goomba Shoe, Item Damage: 3, Item Room: 21
+
+
+ It's Player N* 1 <<->> Carlos's Turn:
+
+==== Choose one of the following options ==== 
+1. Draw World
+2. Display Player Info
+3. Display Current Space(Room) Info
+4. Move
+5. Pick Item
+6. Look Around
+7. quit
+5
+
+Enter Item number that you want to pick:
+22
+Item Picked
+
+ It's Player N* 2 <<->> Doris's Turn:
+
+==== Choose one of the following options ==== 
+1. Draw World
+2. Display Player Info
+3. Display Current Space(Room) Info
+4. Move
+5. Pick Item
+6. Look Around
+7. quit
+4
+
+Enter room number to which you want to move:
+18
+Room not a neighbor. Lose your turn
+
+ It's Player N* 0 <<->> Computer's Turn:
+
+==== Choose one of the following options ==== 
+1. Draw World
+2. Display Player Info
+3. Display Current Space(Room) Info
+4. Move
+5. Pick Item
+6. Look Around
+7. quit
+
+Enter Item number that you want to pick:
+Item Not Present
+
+ It's Player N* 0 <<->> Computer's Turn:
+
+==== Choose one of the following options ==== 
+1. Draw World
+2. Display Player Info
+3. Display Current Space(Room) Info
+4. Move
+5. Pick Item
+6. Look Around
+7. quit
+
+Enter Item number that you want to pick:
+Item Not Present
+
+ It's Player N* 0 <<->> Computer's Turn:
+
+==== Choose one of the following options ==== 
+1. Draw World
+2. Display Player Info
+3. Display Current Space(Room) Info
+4. Move
+5. Pick Item
+6. Look Around
+7. quit
+
+Current Room Num = 1, Current Room Name = Mushroom Room 
+Neighboring Rooms with Items: 
+Neighbor Num = 5 Neighbor Name = Fire Flower Courtyard
+Items in Room:
+
+Neighbor Num = 6 Neighbor Name = Star Chamber
+Items in Room:
+14. Silken Cord, Item Damage: 3, Item Room: 6
+21. P-Wing, Item Damage: 2, Item Room: 6
+
+Neighbor Num = 10 Neighbor Name = Goomba Garden
+Items in Room:
+19. Hammer Suit, Item Damage: 3, Item Room: 10
+
+Neighbor Num = 20 Neighbor Name = Chain Chomp Pen
+Items in Room:
+18. Yoshi Egg, Item Damage: 2, Item Room: 20
+
+Neighbor Num = 8 Neighbor Name = Underground Dungeon
+Items in Room:
+17. Boo Lantern, Item Damage: 2, Item Room: 8
+20. Tanooki Leaf, Item Damage: 1, Item Room: 8
+
+Target =  Doctor Lucky, Health = 50, Current Location = 4
+
+
+ It's Player N* 1 <<->> Carlos's Turn:
+
+==== Choose one of the following options ==== 
+1. Draw World
+2. Display Player Info
+3. Display Current Space(Room) Info
+4. Move
+5. Pick Item
+6. Look Around
+7. quit
+6
+
+Current Room Num = 21, Current Room Name = Cannon Room 
+Neighboring Rooms with Items: 
+Neighbor Num = 11 Neighbor Name = Treasure Room
+Items in Room:
+15. Super Star, Item Damage: 1, Item Room: 11
+
+Neighbor Num = 18 Neighbor Name = Princess Peach Tower
+Items in Room:
+
+Target =  Doctor Lucky, Health = 50, Current Location = 5
+
+
+ It's Player N* 2 <<->> Doris's Turn:
+
+==== Choose one of the following options ==== 
+1. Draw World
+2. Display Player Info
+3. Display Current Space(Room) Info
+4. Move
+5. Pick Item
+6. Look Around
+7. quit
+7
+=== Game Over ===

@@ -1,0 +1,47 @@
+30 23 Lucky Mario's Castle
+50 Doctor Lucky
+21
+15 8 17 13 Mushroom Room
+18 17 21 20 PowerUp Room
+24  9 26 13 Bowser Lair
+20 9 23 13 Warp Pipe Room 
+15  3 17 7 Fire Flower Courtyard 
+18 4 20  8 Star Chamber  
+21  3 24  8 Yoshi Nest
+12 14 17 18 Underground Dungeon
+ 4  7 9  12 Lava Pit 
+10  9 14 13 Goomba Garden
+ 5 13  9 15 Treasure Room
+ 5  4 11  6 Green House
+18 14 24 16 Question Block Vault 
+27  5 28 18 Thwomp Hall
+25 2 28  4 Koopa Troop Hideout
+22 17 24 19 Bob-omb Factory
+25 20 28 21 Coin Vault
+ 6 16 11 19 Princess Peach Tower
+ 2  2  4  6 Boo's Haunt
+12  5 14  8 Chain Chomp Pen
+ 2 16  5 21 Cannon Room
+22
+12 3 Fire Flower
+18 2 Super Mushroom
+2 2 Cape Feather
+8 3 Crepe Pan
+11 4 Letter Opener
+15 3 Shoe Horn
+2 4 Sharp Knife
+16 2 Revolver
+1 2 Civil War Cannon
+14 2 Ice Flower
+16 2 Monkey Hand
+2 4 Tight Hat
+0 2 Piece of Rope
+5 3 Silken Cord
+10 1 Super Star
+13 2 Koopa Shell
+7 2 Boo Lantern
+19 2 Yoshi Egg
+9 3 Hammer Suit
+7 1 Tanooki Leaf
+5 2 P-Wing
+20 3 Goomba Shoe

@@ -9,286 +9,474 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import javax.imageio.ImageIO;
 
 /**
- * The WorldSetup class is responsible for initializing the game world,
- * including rooms and items, based on a given configuration file content.
- * It implements the World interface.
+ * This is World Implementation Class which extends from the World Interface.
+ * It creates the Target object, Spaces Objects and Items Objects.
+ * It also creates the graphical representation of the world.
  */
 public final class WorldSetup implements World {
-  private final int totalRow; // Total number of rows in the world
-  private final int totalCol; // Total number of columns in the world
-  private String world; // String representation of the world
-  private final int roomCount; // Number of rooms in the world
-  private final int itemCount; // Number of items in the world
-  private int health; // Health of the target
-  private String target; // Name of the target
-  private Target targetObj; // Target object
-  private Map<Integer, ItemList> itemObjList; // Map of item objects
-  private Map<Integer, Room> roomObjList; // Map of room objects
-  private Map<Integer, List<Room>> neighborTable; // Table of neighboring rooms 
+
+  private final Scanner scan;
+  private final int totalRow;
+  private final int totalCol;
+  private String world;
+  private final int roomCount;
+  private final int itemCount;
+  private String[][] rooms;
+  private int health;
+  private String target;
+  private final int gameMaxTurn;
+  private int turn;
+  private int turnCount;
+  private Target targetObj;
+  private final Map<Integer, ItemList> itemObjList;  
+  private final Map<Integer, Room> roomObjList;
+  private final Map<Integer, List<Room>> neighborTable;
+  private final Map<Integer, Player> playerList;
   
+
   /**
-   * Constructs a WorldSetup instance with the specified file content.
-   *
-   * @param fileContent the content of the configuration file
-   * @throws IllegalArgumentException if any validation fails
+   * This is the Constructor for the WorldSetup Class.
+   * It initializes takes the file content as string to derive the
+    required parameter values. These values are used to create the Spaces, Items and Target.
+   * @param fileInput gives the file content in a Readable format.
+   * @param maxTurn The integer value for the maximum number of turns for which the game runs.
+    Should be greater than 0.
+   * @throws IllegalArgumentException If the file content does not have values that 
+    satisfy the requirements or max turn is less than 1, exceptions are thrown.
    */
-  public WorldSetup(String fileContent) throws IllegalArgumentException {
+  public WorldSetup(Readable fileInput, int maxTurn) throws IllegalArgumentException {
+    if (fileInput == null) {
+      throw new IllegalArgumentException("World creation input file content is not correct.");
+    }
+    if (maxTurn < 1) {
+      throw new IllegalArgumentException("To paly the game Max turn should be atleast 1.");
+    }
+    this.turn = 1;
+    this.gameMaxTurn = maxTurn;
+    this.turnCount = 1;
+    this.itemObjList = new HashMap<Integer, ItemList>();  
+    this.roomObjList = new HashMap<Integer, Room>();
+    this.neighborTable = new HashMap<Integer, List<Room>>();
+    this.playerList = new HashMap<Integer, Player>();
+    this.scan = new Scanner(fileInput);
+        
+    String fileContent = "";
+    scan.useDelimiter("");
+    while (this.scan.hasNext()) {
+      fileContent = fileContent + scan.next();
+    }
     String[] lines = fileContent.split("\n");
     String[] element = null;
+    
     element = lines[0].strip().split("\\s+");
+    
+    //Get World Details. 
     this.world = "";
     this.totalRow = Integer.parseInt(element[0].strip());
     this.totalCol = Integer.parseInt(element[1].strip());
-
-    // Validate world dimensions
-    if (this.totalRow > 0 && this.totalCol > 0) {
-      int j;
-      for (j = 2; j < element.length; ++j) {
-        this.world = this.world + " " + element[j];
-      }
-
-      // Parse health and target information
-      element = lines[1].strip().split("\\s+");
-      this.health = Integer.parseInt(element[0].strip());
-      if (this.health <= 0) {
-        throw new IllegalArgumentException("Initial Health of Target must be a Positive value.");
-      } else {
-        this.target = "";
-        for (j = 1; j < element.length; ++j) {
-          this.target = this.target + " " + element[j];
-        }
-  
-        // Validate number of rooms
-        try {
-          Integer.parseInt(lines[2].strip());
-        } catch (NumberFormatException var11) {
-          System.out.println("Number of Spaces should be an Integer");
-        }
-
-        this.roomCount = Integer.parseInt(lines[2].strip());
-        if (this.roomCount <= 1) {
-          throw new IllegalArgumentException("There should at least be two rooms present.");
-        } else {
-          String[][] rooms = new String[this.roomCount][6];
-
-          // Parse room details
-          try {
-            for (int i = 3; i < 3 + this.roomCount; ++i) {
-              element = null;
-              
-              element = lines[i].strip().split("\\s+");
-              rooms[i - 3][0] = element[0].strip(); // Row start
-              rooms[i - 3][1] = element[1].strip(); // Column start
-              rooms[i - 3][2] = element[2].strip(); // Row end
-              rooms[i - 3][3] = element[3].strip(); // Column end
-
-              // Validate room dimensions
-              if (Integer.parseInt(rooms[i - 3][0]) < 0 || Integer.parseInt(rooms[i - 3][1]) < 0 
-                  || Integer.parseInt(rooms[i - 3][2]) < 0 || Integer.parseInt(rooms[i - 3][3]) < 0 
-                  || Integer.parseInt(rooms[i - 3][0]) > this.totalRow 
-                  || Integer.parseInt(rooms[i - 3][1]) > this.totalCol 
-                  || Integer.parseInt(rooms[i - 3][2]) > this.totalRow 
-                  || Integer.parseInt(rooms[i - 3][3]) > this.totalCol) {
-                throw new IllegalArgumentException("Room Column or Row value cannot be negative. "
-                      + "They can also not be greater than the room dimensions.");
-              }
-
-              String roomName = "";
-              for (int j1 = 4; j1 < element.length; ++j1) {
-                roomName = roomName + " " + element[j1];
-              }
-
-              rooms[i - 3][4] = roomName.strip(); // Room name
-            }
-          } catch (ArrayIndexOutOfBoundsException var12) {
-            System.out.println("Correct number of Spaces are not given");
-          }
-
-          // Validate number of items
-          try {
-            Integer.parseInt(lines[3 + this.roomCount].strip());
-          } catch (NumberFormatException var10) {
-            System.out.println("Number of Items should be an Integer. "
-                + "Or check if correct Number of Spaces are provided.");
-          }
-
-          this.itemCount = Integer.parseInt(lines[3 + this.roomCount].strip());
-          if (this.itemCount < 1) {
-            throw new IllegalArgumentException("There should at least be 1 item.");
-          } else {
-            String[][] items = new String[this.itemCount][3];
-
-            // Parse item details
-            int i;
-            for (i = 4 + this.roomCount; i < 4 + this.roomCount + this.itemCount; ++i) {
-              element = null;
-              element = lines[i].strip().split("\\s+");
-              items[i - 4 - this.roomCount][0] = element[0].strip(); // Room index
-
-              // Validate room index for item
-              if (Integer.parseInt(items[i - 4 - this.roomCount][0]) < 0 
-                  || Integer.parseInt(items[i - 4 - this.roomCount][0]) > this.roomCount - 1) {
-                throw new IllegalArgumentException("Item is set to a room that does not exist.");
-              }
-
-              items[i - 4 - this.roomCount][1] = element[1].strip(); // Item damage
-              if (Integer.parseInt(items[i - 4 - this.roomCount][1]) < 1) {
-                throw new IllegalArgumentException("Damage of an item should be positive.");
-              }
-
-              String itemName = "";
-              for (int j1 = 2; j1 < element.length; ++j1) {
-                itemName = itemName + " " + element[j1];
-              }
-
-              items[i - 4 - this.roomCount][2] = itemName.strip(); // Item name
-            }
-
-            this.createTarget();
-            this.createItems(items);
-            this.createRooms(rooms, items);
-            this.neighborTable = new HashMap<Integer, List<Room>>();
-
-            // Initialize neighbor lists for each room
-            for (i = 1; i <= this.roomCount; ++i) {
-              List<Room> neighborList = new ArrayList<Room>();
-              this.neighborTable.put(i, neighborList);
-            }
-
-            // Find neighbors for each room
-            for (i = 1; i <= this.roomCount; ++i) {
-              this.findNeighbor(i, rooms);
-            }
-
-            this.setNeighbors(this.neighborTable);
-
-            // Draw the world visualization
-            try {
-              this.drawWorld(rooms, this.totalRow, this.totalCol);
-            } catch (IOException var9) {
-              var9.printStackTrace();
-            }
-
-          }
-        }
-      }
-    } else {
+    if (this.totalRow <= 0 || this.totalCol <= 0) {
       throw new IllegalArgumentException("Enter correct dimensions for World.");
     }
+    for (int j = 2; j < element.length; j++) {
+      this.world = this.world + " " + element[j];
+    }
+        
+    //Get Target Details. 
+    try {
+      element = lines[1].strip().split("\\s+");
+      this.health = Integer.parseInt(element[0].strip());
+  
+      if (this.health <= 0) {
+        throw new IllegalArgumentException("Initial Health of Target must be a Positive value.");
+      }
+      this.target = "";
+      for (int j = 1; j < element.length; j++) {
+        this.target = this.target + " " + element[j];
+      }
+    } catch (NumberFormatException e) {
+      throw new IllegalArgumentException("Health should be an integer");
+    }
+
+    //Get Room Details.
+    try { 
+      Integer.parseInt(lines[2].strip());
+    } catch (NumberFormatException e)  { 
+      throw new IllegalArgumentException("Number of Spaces should be an Integer"); 
+    } 
+    
+    this.roomCount = Integer.parseInt(lines[2].strip());
+    if (this.roomCount <= 1) {
+      throw new IllegalArgumentException("There should atleast be two rooms present.");
+    }
+   
+    //Get Item Details. 
+    try { 
+      Integer.parseInt(lines[3 + this.roomCount].strip());
+    } catch (NumberFormatException e) {
+      System.out.println("Number of Items should be an Integer. "
+          + "Or check if correct Number of Spaces are provided.");
+    }
+
+    this.itemCount = Integer.parseInt(lines[3 + this.roomCount].strip());
+    if (this.itemCount < 1) {
+      throw new IllegalArgumentException("There should atleast be 1 item.");
+    }
+     
+    createWorldComponents(lines);
   }
+  
+ 
+  //
+  // Private Methods of the Class - exception handling needed?
+  //
+  private void createWorldComponents(String[] lines) {
+    //creating 2D array for rooms
+    String[] element = null;
+    this.rooms = new String[this.roomCount][6];
+    try {
+      for (int i = 3; i < 3 + this.roomCount; i++) {
+        element = null;
+        element = lines[i].strip().split("\\s+");
+        rooms[i - 3][0] = element[0].strip();
+        rooms[i - 3][1] = element[1].strip();
+        rooms[i - 3][2] = element[2].strip();
+        rooms[i - 3][3] = element[3].strip();
+        if (Integer.parseInt(rooms[i - 3][0]) < 0 || Integer.parseInt(rooms[i - 3][1]) < 0 
+            || Integer.parseInt(rooms[i - 3][2]) < 0 || Integer.parseInt(rooms[i - 3][3]) < 0 
+            || Integer.parseInt(rooms[i - 3][0]) > this.totalRow 
+            || Integer.parseInt(rooms[i - 3][1]) > this.totalCol
+            || Integer.parseInt(rooms[i - 3][2]) > this.totalRow 
+            || Integer.parseInt(rooms[i - 3][3]) > this.totalCol) {
+          throw new IllegalArgumentException("Room Column or Row value cannot be negative."
+              + " They can also not be greater then the room dimensions.");
+        }
+        String roomName = "";
+        for (int j = 4; j < element.length; j++) {
+          roomName = roomName + " " + element[j];
+        }
+        rooms[i - 3][4] = roomName.strip();
+      }
+    } catch (ArrayIndexOutOfBoundsException e) {
+      throw new IllegalArgumentException("Correct number of Spaces are not given"); 
+    }
+    
+    //creating 2D array for Items 
+    String[][] items = new String[this.itemCount][3];
+    try {
+      for (int i = 4 + this.roomCount; i < 4 + this.roomCount + this.itemCount; i++) {
+        element = null;
+        element = lines[i].strip().split("\\s+");
+        items[i - 4 - this.roomCount][0] = element[0].strip();
+        if (Integer.parseInt(items[i - 4 - this.roomCount][0]) < 0 
+            || Integer.parseInt(items[i - 4 - this.roomCount][0]) > this.roomCount - 1) {
+          throw new IllegalArgumentException("Item is set to a room that does not exist.");
+        }
+        items[i - 4 - this.roomCount][1] = element[1].strip();
+        if (Integer.parseInt(items[i - 4 - this.roomCount][1]) < 1) {
+          throw new IllegalArgumentException("Damage of an item should be positive.");
+        }
+        String itemName = "";
+        for (int j = 2; j < element.length; j++) {
+          itemName = itemName + " " + element[j];
+        }
+        items[i - 4 - this.roomCount][2] = itemName.strip();
+      }
+    } catch (ArrayIndexOutOfBoundsException e) {
+      throw new IllegalArgumentException("Correct number of Items are not given"); 
+    }
+    
+    // call function to create Target
+    createTarget();
 
+    //create items
+    createItems(items);
+ 
+    //create rooms
+    createRooms(rooms, items);
+         
+    //check neighbors of rooms
+    for (int i = 1; i <= this.roomCount; i++) {
+      List<Room> neighborList = new ArrayList<Room>();
+      this.neighborTable.put(i, neighborList);
+    }
+    for (int i = 1; i <= this.roomCount; i++) {
+      findNeighbor(i, rooms);      
+    }
+    
+    // set the neighbors to the rooms
+    setNeighbors(neighborTable);
 
-  /**
-   * Creates a target object with the specified attributes.
-   */
+  }
+  
   private void createTarget() {
     this.targetObj = new Target(this.target, this.health, 1, this.roomCount);
   }
-
-  /**
-   * Creates a list of items from the given array and stores them in a map.
-   *
-   * @param items A 2D array containing item details where each row represents an item.
-   *              The first column is the item id, the second column is the item value,
-   *              the third column is the item description, and the fourth column is its weight.
-   */
+  
   private void createItems(String[][] items) {
-    this.itemObjList = new HashMap<Integer, ItemList>();
-
-    for (int i = 1; i <= this.itemCount; ++i) {
-      this.itemObjList.put(i, new ItemList(i, Integer.parseInt(items[i - 1][0]) + 1, 
+    
+    for (int i = 1; i <= this.itemCount; i++) {
+      this.itemObjList.put(i, new ItemList(i, Integer.parseInt(items[i - 1][0]) + 1,
           items[i - 1][2], Integer.parseInt(items[i - 1][1])));
     }
   }
-
-  /**
-   * Sets the neighbors for each room based on the provided neighbor table.
-   *
-   * @param neighborTable2 A map where the key is the room number
-   */
+  
   private void setNeighbors(Map<Integer, List<Room>> neighborTable2) {
-    for (int i = 1; i <= this.roomCount; ++i) {
-      this.roomObjList.get(i).setNeighbor(neighborTable2.get(i));
+    for (int i = 1; i <= this.roomCount; i++) {
+      roomObjList.get(i).setNeighbor(neighborTable2.get(i));
     }
   }
-
-  /**
-   * Creates room objects from the provided room and item arrays and stores them in a map.
-   *
-   * @param rooms A 2D array containing room details where each row represents a room.
-   *              The array includes the room id, coordinates, and name.
-   * @param items A 2D array containing item details as described in the createItems method.
-   */
-  private void createRooms(String[][] rooms, String[][] items) {
-    this.roomObjList = new HashMap<Integer, Room>();
-
-    for (int i = 1; i <= this.roomCount; ++i) {
+  
+  
+  private void createRooms(String[][] roomsObj, String[][] items) {
+    for (int i = 1; i <= this.roomCount; i++) {
       List<ItemList> itemList = new ArrayList<ItemList>();
-
-      for (int j = 1; j <= this.itemCount; ++j) {
+      for (int j = 1; j <= this.itemCount; j++) {
         if (Integer.parseInt(items[j - 1][0]) + 1 == i) {
           itemList.add(this.itemObjList.get(j));
         }
       }
+      int[] coordinates = new int[] {Integer.parseInt(roomsObj[i - 1][1]), 
+          Integer.parseInt(roomsObj[i - 1][0]), Integer.parseInt(roomsObj[i - 1][3]) + 1,
+          Integer.parseInt(roomsObj[i - 1][2]) + 1};
+      this.roomObjList.put(i, new Room(i, roomsObj[i - 1][4], itemList, coordinates));
 
-      int[] coordinates = new int[]{
-          Integer.parseInt(rooms[i - 1][1]), 
-          Integer.parseInt(rooms[i - 1][0]), 
-          Integer.parseInt(rooms[i - 1][3]) + 1, 
-          Integer.parseInt(rooms[i - 1][2]) + 1
-      };
-      this.roomObjList.put(i, new Room(i, rooms[i - 1][4], itemList, coordinates));
-    }
+    }   
   }
   
-  /**
-   * Draws the world map based on the provided room specifications and saves it as a JPEG image.
-   *
-   * @param rooms A 2D array containing room details used for drawing.
-   * @param worldTotalRow The total number of rows in the world.
-   * @param worldTotalCol The total number of columns in the world.
-   * @throws IOException If an error occurs during image writing.
-   */
-  private void drawWorld(String[][] rooms, int worldTotalRow, int worldTotalCol) 
-      throws IOException {
-    int width = worldTotalCol * 25 + 25;
-    int height = worldTotalRow * 25 + 25;
-    BufferedImage bufferInstance = new BufferedImage(width, height, 1);
+  private void findNeighbor(int roomNum, String[][] roomsObj) {
+    //set coordinate 1
+    int[] coordinate1 = new int[] {Integer.parseInt(roomsObj[roomNum - 1][0]), 
+        Integer.parseInt(roomsObj[roomNum - 1][1]), Integer.parseInt(roomsObj[roomNum - 1][2])
+        + 1, Integer.parseInt(roomsObj[roomNum - 1][3]) + 1}; 
+    
+    
+    //set coordinate 2
+    for (int k = 0; k < this.roomCount; k++) {
+      if (k != roomNum - 1) {
+        int [] coordinate2 = new int[] {Integer.parseInt(roomsObj[k][0]), 
+          Integer.parseInt(roomsObj[k][1]), Integer.parseInt(roomsObj[k][2]) 
+          + 1, Integer.parseInt(roomsObj[k][3]) + 1};
+      
+        int[][] quad1 = new int[][] {{coordinate1[0], coordinate1[1]},
+          {coordinate1[2], coordinate1[1]}, 
+          {coordinate1[2], coordinate1[3]}, {coordinate1[0], coordinate1[3]}};
+        int[][] quad2 = new int[][] {{coordinate2[0], coordinate2[1]}, 
+          {coordinate2[2], coordinate2[1]}, 
+          {coordinate2[2], coordinate2[3]}, {coordinate2[0], coordinate2[3]}};
+      
+        //call fns
+        // for every side on j, check if point i lies on it.
+        for (int i = 0; i < 4; i++) {
+          for (int j = 0; j < 4; j++) {
+            if (j < 2) {
+              if (checkWithinLine(quad1[j % 4][0], quad1[j % 4][1], quad1[(j + 1) % 4][0],
+                  quad1[(j + 1) % 4][1], quad2[i][0], quad2[i][1])) {
+                                
+                if (!neighborTable.get(roomNum).contains(this.roomObjList.get(k + 1))) {
+                  neighborTable.get(roomNum).add(this.roomObjList.get(k + 1));
+                }
+                if (!neighborTable.get(k + 1).contains(this.roomObjList.get(roomNum))) {
+                  neighborTable.get(k + 1).add(this.roomObjList.get(roomNum));
+                }              
+              } else if (i == 3) {
+                //check corner case where the two rectangles have only 1 point in common
+                if (checkTwoCommonPoints(quad1[j % 4][0], quad1[j % 4][1], quad1[(j + 1) % 4][0],
+                    quad1[(j + 1) % 4][1], quad2[0][0], quad2[0][1], quad2[i][0], quad2[i][1]) 
+                      || checkTwoCommonPoints(quad1[j % 4][0], quad1[j % 4][1], 
+                          quad1[(j + 1) % 4][0], quad1[(j + 1) % 4][1], quad2[i][0], 
+                          quad2[i][1], quad2[i - 1][0], quad2[i - 1][1])) {
+                                        
+                  if (!neighborTable.get(roomNum).contains(this.roomObjList.get(k + 1))) {
+                    neighborTable.get(roomNum).add(this.roomObjList.get(k + 1));
+                  }
+                  if (!neighborTable.get(k + 1).contains(this.roomObjList.get(roomNum))) {
+                    neighborTable.get(k + 1).add(this.roomObjList.get(roomNum));
+                  }
+                }
+              } else if (i == 0) {
+                if (checkTwoCommonPoints(quad1[j % 4][0], quad1[j % 4][1], 
+                    quad1[(j + 1) % 4][0], quad1[(j + 1) % 4][1], quad2[i][0],
+                    quad2[i][1], quad2[3][0], quad2[3][1]) 
+                    || checkTwoCommonPoints(quad1[j % 4][0], quad1[j % 4][1], 
+                        quad1[(j + 1) % 4][0], quad1[(j + 1) % 4][1], quad2[i][0], 
+                        quad2[i][1], quad2[i + 1][0], quad2[i + 1][1])) {
+                  if (!neighborTable.get(roomNum).contains(this.roomObjList.get(k + 1))) {  
+                    neighborTable.get(roomNum).add(this.roomObjList.get(k + 1));
+                  }
+                  if (!neighborTable.get(k + 1).contains(this.roomObjList.get(roomNum))) {
+                    neighborTable.get(k + 1).add(this.roomObjList.get(roomNum));
+                  }                   
+                }
+              } else if (i == 1) {
+                if (checkTwoCommonPoints(quad1[j % 4][0], quad1[j % 4][1], quad1[(j + 1) % 4][0],
+                    quad1[(j + 1) % 4][1], quad2[i - 1][0], quad2[i - 1][1], quad2[i][0], 
+                    quad2[i][1]) || checkTwoCommonPoints(quad1[j % 4][0], quad1[j % 4][1], 
+                        quad1[(j + 1) % 4][0], quad1[(j + 1) % 4][1], quad2[i][0], 
+                        quad2[i][1], quad2[i + 1][0], quad2[i + 1][1])) {
+                  if (!neighborTable.get(roomNum).contains(this.roomObjList.get(k + 1))) {
+                    neighborTable.get(roomNum).add(this.roomObjList.get(k + 1));
+                  }
+                  if (!neighborTable.get(k + 1).contains(this.roomObjList.get(roomNum))) {
+                    neighborTable.get(k + 1).add(this.roomObjList.get(roomNum));
+                  }
+                }
+              } else if (i == 2) {
+                if (checkTwoCommonPoints(quad1[j % 4][0], quad1[j % 4][1], quad1[(j + 1) % 4][0],
+                    quad1[(j + 1) % 4][1], quad2[i - 1][0], quad2[i - 1][1], quad2[i][0], 
+                    quad2[i][1]) || checkTwoCommonPoints(quad1[j % 4][0], quad1[j % 4][1],
+                        quad1[(j + 1) % 4][0], quad1[(j + 1) % 4][1], quad2[i + 1][0], 
+                        quad2[i + 1][1], quad2[i][0], quad2[i][1])) {
+                  if (!neighborTable.get(roomNum).contains(this.roomObjList.get(k + 1))) {
+                    neighborTable.get(roomNum).add(this.roomObjList.get(k + 1));
+                  }
+                  if (!neighborTable.get(k + 1).contains(this.roomObjList.get(roomNum))) {
+                    neighborTable.get(k + 1).add(this.roomObjList.get(roomNum));
+                  } 
+                }
+              }
+            } else {
+              if (checkWithinLine(quad1[(j + 1) % 4][0], quad1[(j + 1) % 4][1], 
+                  quad1[j % 4][0], quad1[j % 4][1], quad2[i][0], quad2[i][1])) {
+                if (!neighborTable.get(roomNum).contains(this.roomObjList.get(k + 1))) {
+                  neighborTable.get(roomNum).add(this.roomObjList.get(k + 1));
+                }
+                if (!neighborTable.get(k + 1).contains(this.roomObjList.get(roomNum))) {
+                  neighborTable.get(k + 1).add(this.roomObjList.get(roomNum));
+                }
+              } else if (i == 3) {
+                //check corner case
+                if (checkTwoCommonPoints(quad1[(j + 1) % 4][0], quad1[(j + 1) % 4][1], 
+                    quad1[j % 4][0], quad1[j % 4][1], quad2[0][0], quad2[0][1], quad2[i][0],
+                    quad2[i][1]) || checkTwoCommonPoints(quad1[(j + 1) % 4][0], 
+                        quad1[(j + 1) % 4][1], quad1[j % 4][0], quad1[j % 4][1], 
+                        quad2[i][0], quad2[i][1], quad2[i - 1][0], quad2[i - 1][1])) {
+                  if (!neighborTable.get(roomNum).contains(this.roomObjList.get(k + 1))) {
+                    neighborTable.get(roomNum).add(this.roomObjList.get(k + 1));
+                  }
+                  if (!neighborTable.get(k + 1).contains(this.roomObjList.get(roomNum))) {
+                    neighborTable.get(k + 1).add(this.roomObjList.get(roomNum));
+                  }
+                }
+              } else if (i == 0) {
+                if (checkTwoCommonPoints(quad1[(j + 1) % 4][0], quad1[(j + 1) % 4][1], 
+                    quad1[j % 4][0], quad1[j % 4][1], quad2[i][0], quad2[i][1], quad2[3][0],
+                    quad2[3][1]) || checkTwoCommonPoints(quad1[(j + 1) % 4][0], 
+                        quad1[(j + 1) % 4][1], quad1[j % 4][0], quad1[j % 4][1], quad2[i][0],
+                        quad2[i][1], quad2[i + 1][0], quad2[i + 1][1])) {
+                  if (!neighborTable.get(roomNum).contains(this.roomObjList.get(k + 1))) {
+                    neighborTable.get(roomNum).add(this.roomObjList.get(k + 1));
+                  }
+                  if (!neighborTable.get(k + 1).contains(this.roomObjList.get(roomNum))) {
+                    neighborTable.get(k + 1).add(this.roomObjList.get(roomNum));
+                  }
+                }
+              } else if (i == 1) {
+                if (checkTwoCommonPoints(quad1[(j + 1) % 4][0], quad1[(j + 1) % 4][1], 
+                    quad1[j % 4][0], quad1[j % 4][1], quad2[i - 1][0], quad2[i - 1][1], 
+                    quad2[i][0], quad2[i][1]) || checkTwoCommonPoints(quad1[(j + 1) % 4][0],
+                        quad1[(j + 1) % 4][1], quad1[j % 4][0], quad1[j % 4][1], 
+                        quad2[i][0], quad2[i][1], quad2[i + 1][0], quad2[i + 1][1])) {
+                  if (!neighborTable.get(roomNum).contains(this.roomObjList.get(k + 1))) {
+                    neighborTable.get(roomNum).add(this.roomObjList.get(k + 1));
+                  }
+                  if (!neighborTable.get(k + 1).contains(this.roomObjList.get(roomNum))) {
+                    neighborTable.get(k + 1).add(this.roomObjList.get(roomNum));
+                  }
+                }
+              } else if (i == 2) {
+                if (checkTwoCommonPoints(quad1[(j + 1) % 4][0], quad1[(j + 1) % 4][1], 
+                    quad1[j % 4][0], quad1[j % 4][1], quad2[i - 1][0], quad2[i - 1][1], 
+                    quad2[i][0], quad2[i][1]) || checkTwoCommonPoints(quad1[(j + 1) % 4][0],
+                        quad1[(j + 1) % 4][1], quad1[j % 4][0], quad1[j % 4][1], quad2[i + 1][0],
+                        quad2[i + 1][1], quad2[i][0], quad2[i][1])) {
+                  if (!neighborTable.get(roomNum).contains(this.roomObjList.get(k + 1))) {
+                    neighborTable.get(roomNum).add(this.roomObjList.get(k + 1));
+                  }
+                  if (!neighborTable.get(k + 1).contains(this.roomObjList.get(roomNum))) {
+                    neighborTable.get(k + 1).add(this.roomObjList.get(roomNum));
+                  } 
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  private boolean checkTwoCommonPoints(int x1, int y1, int x2, int y2,
+      int x3, int y3, int x4, int y4) {
+    if ((x1 == x3) && (x2 == x4) && (y1 == y3) && (y2 == y4)) {
+      return true;
+    }
+    return false;  
+  }
+  
+  private boolean checkWithinLine(int x1, int y1, int x2, int y2, int x, int y) {
+    if ((x == x1) && (x == x2) && (y > y1) && (y < y2)) {
+      return true;
+    } else if ((y == y1) && (y == y2) && (x > x1) && (x < x2)) {
+      return true;
+    } else {
+      return false;
+    }
+      
+  }
+
+  private void updateTurn() {
+    if (this.turn == this.playerList.size() - 1) {
+      this.turn = 0;
+    } else {
+      this.turn++;
+    }
+    this.turnCount++;
+    moveTarget();
+  }
+   
+  private void moveTarget() {
+    this.targetObj.move();
+  }
+
+  // 
+  //Public Methods from Interface and needed for controller commands
+  //
+  @Override
+  //public void drawWorld(String[][] rooms, int totalRow, int totalCol) throws IOException {
+  public void drawWorld() throws IOException {
+    int width = totalCol * 25 + 25;
+    int height = totalRow * 25 + 25;
+
+    BufferedImage bufferInstance = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     Graphics graphicsObj = bufferInstance.createGraphics();
+    
     graphicsObj.setColor(Color.gray);
     graphicsObj.fillRect(0, 0, width, height);
-
-    for (int i = 0; i < rooms.length; ++i) {
+    for (int i = 0; i < rooms.length; i++) {
       graphicsObj.setColor(Color.white);
       graphicsObj.fillRect(Integer.parseInt(rooms[i][1]) * 25 + 8, 
-          Integer.parseInt(rooms[i][0]) * 25 + 8, 
-             (Integer.parseInt(rooms[i][3]) - Integer.parseInt(rooms[i][1])) * 25 + 25, 
-             (Integer.parseInt(rooms[i][2]) - Integer.parseInt(rooms[i][0])) * 25 + 25);
+          Integer.parseInt(rooms[i][0]) * 25 + 8, (Integer.parseInt(rooms[i][3])
+              - Integer.parseInt(rooms[i][1])) * 25 + 25, 
+          (Integer.parseInt(rooms[i][2]) - Integer.parseInt(rooms[i][0])) * 25 + 25);
       graphicsObj.setColor(Color.DARK_GRAY);
-      graphicsObj.drawRect(Integer.parseInt(rooms[i][1]) * 25 + 8, 
-          Integer.parseInt(rooms[i][0]) * 25 + 8, 
-             (Integer.parseInt(rooms[i][3]) - Integer.parseInt(rooms[i][1])) * 25 + 25, 
-             (Integer.parseInt(rooms[i][2]) - Integer.parseInt(rooms[i][0])) * 25 + 25);
-      graphicsObj.drawString(rooms[i][4], Integer.parseInt(rooms[i][1]) * 25 + 13, 
-          Integer.parseInt(rooms[i][0]) * 25 + 20);
+      graphicsObj.drawRect(Integer.parseInt(rooms[i][1]) * 25 + 8,
+          Integer.parseInt(rooms[i][0]) * 25 + 8, (Integer.parseInt(rooms[i][3])
+              - Integer.parseInt(rooms[i][1])) * 25 + 25, (Integer.parseInt(rooms[i][2])
+                  - Integer.parseInt(rooms[i][0])) * 25 + 25);
+      graphicsObj.drawString(rooms[i][4], 
+          Integer.parseInt(rooms[i][1]) * 25 + 13, Integer.parseInt(rooms[i][0]) * 25 + 20);
     }
-
+   
     graphicsObj.dispose();
-
-    //    try {
-    //ImageIO.write(bufferInstance, "jpeg", new File("C:/Users/EDCARLOS/eclipse-workspace/cs5010/"
-    //          + "m1-the-world/res/world.jpeg"));
-    //    } catch (IOException var9) {
-    //      var9.printStackTrace();
-    //    }
-    
-    
     try {
+      
+      //ImageIO.write(bufferInstance, "png", new File("world.png"));
+      
       // Get the path to the "res" directory relative to the application's root
-      String relativePath = "res/world.jpeg"; // Path relative to your JAR or project root
+      String relativePath = "res/world.png"; // Path relative to your JAR or project root
       // Create a File object for the relative path
       File outputFile = new File(relativePath);
             
@@ -297,190 +485,149 @@ public final class WorldSetup implements World {
       outputFile.getParentFile().mkdirs(); 
       
       // Write the image to the specified relative path
-      ImageIO.write(bufferInstance, "jpeg", outputFile);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    
-    
-  }
-
-  /**
-   * Finds neighboring rooms for a given room based on their coordinates.
-   * This method checks for overlaps between the given room and all other rooms,
-   * updating the neighbor table accordingly.
-   *
-   * @param roomNum The index of the room for which neighbors are being found (1-based).
-   * @param rooms A 2D array representing the coordinates of rooms. Each row contains the 
-   *              coordinates [x1, y1, x2, y2] for the respective room.
-   */
-  private void findNeighbor(int roomNum, String[][] rooms) {
-    // Extract the coordinates of the specified room and adjust them for easier processing.
-    int[] coordinate1 = new int[]{
-        Integer.parseInt(rooms[roomNum - 1][0]), // x1
-        Integer.parseInt(rooms[roomNum - 1][1]), // y1
-        Integer.parseInt(rooms[roomNum - 1][2]) + 1, // x2
-        Integer.parseInt(rooms[roomNum - 1][3]) + 1  // y2
-    };
-
-    // Loop through all rooms to find neighbors.
-    for (int k = 0; k < this.roomCount; ++k) { 
+      ImageIO.write(bufferInstance, "png", outputFile);
       
-      if (k != roomNum - 1) { // Skip the current room.
-        // Extract the coordinates of the neighboring room.
-        int[] coordinate2 = new int[]{
-            Integer.parseInt(rooms[k][0]), // x1
-            Integer.parseInt(rooms[k][1]), // y1
-            Integer.parseInt(rooms[k][2]) + 1, // x2
-            Integer.parseInt(rooms[k][3]) + 1  // y2
-        };
-
-        // Define the quadrilaterals (quadrants) for both rooms.
-        int[][] quad1 = new int[][]{
-            {coordinate1[0], coordinate1[1]}, // Bottom-left
-            {coordinate1[2], coordinate1[1]}, // Bottom-right
-            {coordinate1[2], coordinate1[3]}, // Top-right
-            {coordinate1[0], coordinate1[3]}  // Top-left
-        };
-        int[][] quad2 = new int[][]{
-            {coordinate2[0], coordinate2[1]}, // Bottom-left
-            {coordinate2[2], coordinate2[1]}, // Bottom-right
-            {coordinate2[2], coordinate2[3]}, // Top-right
-            {coordinate2[0], coordinate2[3]}  // Top-left
-        };
-
-        // Check for intersections between the quadrilaterals.
-        for (int i = 0; i < 4; ++i) { // Iterate over the edges of quad1.
-          for (int j = 0; j < 4; ++j) { // Iterate over the edges of quad2.
-            // Handle different cases for edges and intersections.
-            if (j < 2) { // For bottom and top edges.
-              if (this.checkWithinLine(quad1[j % 4][0], quad1[j % 4][1], quad1[(j + 1) % 4][0], 
-                  quad1[(j + 1) % 4][1], quad2[i][0], quad2[i][1])) {
-                // Add to neighbor table if not already present.
-                if (!this.neighborTable.get(roomNum).contains(this.roomObjList.get(k + 1))) {
-                  this.neighborTable.get(roomNum).add(this.roomObjList.get(k + 1));
-                }
-                if (!this.neighborTable.get(k + 1).contains(this.roomObjList.get(roomNum))) {
-                  this.neighborTable.get(k + 1).add(this.roomObjList.get(roomNum));
-                }
-              } else if (i == 3) {
-                // Handle specific cases when i equals 3.
-                if (this.checkTwoCommonPoints(quad1[j % 4][0], quad1[j % 4][1], 
-                    quad1[(j + 1) % 4][0], quad1[(j + 1) % 4][1], quad2[0][0], 
-                    quad2[0][1], quad2[i][0], quad2[i][1]) 
-                    || this.checkTwoCommonPoints(quad1[j % 4][0], 
-                        quad1[j % 4][1], quad1[(j + 1) % 4][0], 
-                      quad1[(j + 1) % 4][1], quad2[i][0], quad2[i][1], 
-                      quad2[i - 1][0], quad2[i - 1][1])) {
-                  // Add to neighbor table.
-                  if (!this.neighborTable.get(roomNum).contains(this.roomObjList.get(k + 1))) {
-                    this.neighborTable.get(roomNum).add(this.roomObjList.get(k + 1));
-                  }
-                  if (!this.neighborTable.get(k + 1).contains(this.roomObjList.get(roomNum))) {
-                    this.neighborTable.get(k + 1).add(this.roomObjList.get(roomNum));
-                  }
-                }
-              }
-              // Additional checks for other edge cases follow...
-            }
-            // Similar logic follows for j >= 2 and other combinations of i and j.
-          }
-        }
-      }
+      
+    } catch (IOException ioe) {
+      throw new IOException("Unable to draw world image.");
     }
   }
-
-  /**
-   * Checks if two line segments have two common points.
-   * 
-   * @param x1 - x-coordinate of the first point of the first line
-   * @param y1 - y-coordinate of the first point of the first line
-   * @param x2 - x-coordinate of the second point of the first line
-   * @param y2 - y-coordinate of the second point of the first line
-   * @param x3 - x-coordinate of the first point of the second line
-   * @param y3 - y-coordinate of the first point of the second line
-   * @param x4 - x-coordinate of the second point of the second line
-   * @param y4 - y-coordinate of the second point of the second line
-   * @return true if the lines have two common points, false otherwise
-   */
-  private boolean checkTwoCommonPoints(int x1, int y1, int x2, int y2, int x3, 
-      int y3, int x4, int y4) {
-    return x1 == x3 && x2 == x4 && y1 == y3 && y2 == y4;
+  
+  @Override
+  public String createPlayer(int playerNum, String playerName, int maxItem, int curRoom) 
+      throws IllegalArgumentException {
+    if (playerNum < 0 || playerName == null || "".equals(playerName) || maxItem < 0
+        || playerList.containsKey(playerNum)) {
+      throw new IllegalArgumentException("Player Details are not correct");
+    }
+    if (curRoom < 1 || curRoom > roomObjList.size()) {
+      throw new IllegalArgumentException("Room does not exist");
+    }
+    Player player1 = new Player(playerNum, playerName, maxItem, roomObjList.get(curRoom));
+    this.playerList.put(playerNum, player1);
+    return "Player Created";
+  }
+  
+  @Override
+  public String movePlayer(int player, int roomNum) throws IllegalArgumentException {
+    if (player < 0 || !playerList.containsKey(player)) {
+      throw new IllegalArgumentException("Incorrect Player");
+    }
+    if (roomNum < 1 || roomNum > roomCount) {
+      throw new IllegalArgumentException("Room does not Exist");
+    }
+    int playerRoom = playerList.get(player).getLocation();
+    if (neighborTable.get(playerRoom).contains(roomObjList.get(roomNum))) {
+      playerList.get(player).move(roomObjList.get(roomNum));
+      updateTurn();
+      return "Move Completed";
+    }
+    updateTurn();
+    return "Room not a neighbor. Lose your turn";
+  }
+  
+  @Override
+  public String pickItem(int playerNum, int itemNum) throws IllegalArgumentException {
+    if (playerNum < 0 || !playerList.containsKey(playerNum)) {
+      throw new IllegalArgumentException("Incorrect Player");
+    }
+    if (itemNum < 1 || itemNum > itemCount) {
+      throw new IllegalArgumentException("Item does not Exist");
+    }
+    if (playerList.get(playerNum).getMaxItems() 
+        == playerList.get(playerNum).getItemCount()) {
+      return "Max item count reached for player";
+    }
+    int roomNum = playerList.get(playerNum).getLocation();
+    if (roomObjList.get(roomNum).hasItem(itemObjList.get(itemNum))) {
+      roomObjList.get(roomNum).removeItem(itemObjList.get(itemNum));
+      playerList.get(playerNum).pickItem(itemObjList.get(itemNum));
+      itemObjList.get(itemNum).updateRoom();
+      updateTurn();
+      return "Item Picked";
+    }
+    return "Item Not Present";
+  }
+  
+  @Override
+  public String lookAround(int player) throws IllegalArgumentException {
+    if (player < 0 || !playerList.containsKey(player)) {
+      throw new IllegalArgumentException("Incorrect Player");
+    }
+    updateTurn();
+    return playerList.get(player).lookAround();
   }
 
-  /**
-   * Checks if a point (x, y) is within the bounds of a line segment defined by two points.
-   * 
-   * @param x1 - x-coordinate of the first point of the line
-   * @param y1 - y-coordinate of the first point of the line
-   * @param x2 - x-coordinate of the second point of the line
-   * @param y2 - y-coordinate of the second point of the line
-   * @param x - x-coordinate of the point to check
-   * @param y - y-coordinate of the point to check
-   * @return true if the point is within the line segment, false otherwise
-   */
-  private boolean checkWithinLine(int x1, int y1, int x2, int y2, int x, int y) {
-    if (x == x1 && x == x2 && y > y1 && y < y2) {
+  @Override
+  public String getSpecificPlayerDetails(int specificPlayerNum) throws IllegalArgumentException {
+    if (specificPlayerNum < 0 || !playerList.containsKey(specificPlayerNum)) {
+      throw new IllegalArgumentException("Incorrect Player");
+    }
+    return playerList.get(specificPlayerNum).toString();
+  }
+ 
+  @Override
+  public String getSpecificRoomDetails(int specificRoomNum) throws IllegalArgumentException {
+    if (specificRoomNum < 0 || specificRoomNum > roomObjList.size()) {
+      throw new IllegalArgumentException("Incorrect Room Number");
+    }
+    return roomObjList.get(specificRoomNum).displayPlayerSpaceInfo();
+  }
+    
+  @Override
+  public List<String> getTurn() {
+    List<String> playerTurn = new ArrayList<String>();
+    playerTurn.add(String.format("%s", this.turn));
+    playerTurn.add(playerList.get(this.turn).getPlayerName());
+    return playerTurn;
+  }
+   
+  @Override
+  public boolean gameOver() {
+    if (this.turnCount == this.gameMaxTurn + 1) {
       return true;
-    } else {
-      return y == y1 && y == y2 && x > x1 && x < x2;
     }
+    return false;
   }
   
-  /**
-   * Returns a formatted string representing the specifications of the world.
-   * 
-   * @return a string containing world specifications such as rows, columns, etc...
-   */
-  public String getWorldSpecs() {
-    return String.format("total rows = %s, total cols = %d, WorldName = %s, "
-        + "roomCount = %d, itemCount = %d, Health = %d, TargetName = %s, "
-        + "Target = %s, Items = %s, Rooms = %s", 
-        this.totalRow, this.totalCol, this.world, this.roomCount, this.itemCount, 
-        this.health, this.target, this.targetObj, this.itemObjList, this.roomObjList);
+  @Override
+  public String getTarget() {
+    return this.targetObj.toString();
+  }
+    
+  @Override
+  public String getAllRoomNames() {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 1; i <= roomCount; i++) {
+      sb.append(i);
+      sb.append(" ");
+      sb.append(this.roomObjList.get(i).getRoomName());
+      sb.append("\n");
+    }
+    return sb.toString();
   }
   
-  /**
-   * Gets the map of rooms in the world.
-   * 
-   * @return a map of room objects
-   */
-  public Map<Integer, Room> getRooms() {
-    return this.roomObjList;
-  }
-  
-  /**
-   * Gets the map of items in the world.
-   * 
-   * @return a map of item objects
-   */
-  public Map<Integer, ItemList> getItems() {
-    return this.itemObjList;
-  }
-  
-  /**
-   * Gets the target object in the world.
-   * 
-   * @return the target object
-   */
-  public Target getTarget() {
-    return this.targetObj;
-  }
-  
-
-  public int getTotalRow() {
-    return totalRow;
+  @Override
+  public List<String> getCompleteSpaceDetails() {
+    List<String> list = new ArrayList<String>();
+    for (int i = 1; i <= roomCount; i++) {
+      list.add(this.roomObjList.get(i).toString());
+    }
+    return list;
   }
 
-  public int getTotalCol() {
-    return totalCol;
+
+  /**
+   * This function returns the complete specifications of the world like
+    world dimensions, room count and details, item count and details, target details.
+   * @return returns a String containing world specifications.
+   */
+  @Override
+  public String toString() {
+    return String.format("total rows = %s, total cols = %d, WorldName = %s,\nroomCount = %d,"
+        + " itemCount = %d,\nTarget = %s,\nItems = %s,\nRooms = %s\n", 
+        this.totalRow, this.totalCol, this.world, this.roomCount, this.itemCount,
+        this.targetObj, this.itemObjList, this.roomObjList);
   }
 
-  public int getHealth() {
-    return health;
-  }
-  
-  
 }
-

@@ -3,42 +3,76 @@ package model;
 import java.util.List;
 
 /**
- * Represents a space in the game world, such as a room.
- * This interface defines the behaviors that any space should implement.
+ * This is the Space Interface.
+ * The space has a name, coordinates, list of items present in it, 
+ * and the list of other neighboring spaces.
  */
 public interface Space {
+  
   /**
-   * Gets the name of the room or space.
-   *
-   * @return the name of the room
+   * Gets the name of the particular space.
+   * @return a String with value equal to the space name.
    */
-  String getRoomName();
+  public String getRoomName();
 
   /**
-   * Gets the list of neighboring room objects.
-   *
-   * @return a list of neighboring Room objects
+   * Gets the room number of the particular space.
+   * @return a integer room number (starts from 1).
    */
-  List<Room> getNeighborObject();
+  public int getRoomNum();
+ 
+  /**
+   * Sets the list of neighbors of this Space. It sets the list of objects of type space
+    as well as sets the arrayList with just the neighbor's room number. 
+   * @param neighborList Contains the list of objects of type Room which are neighbors of this Room.
+   */
+  public void setNeighbor(List<Room> neighborList) throws IllegalArgumentException;
+   
+  /**
+   * Removes the player from the space.
+   * @param playerNum the index of player who has to move out of the space.
+   * @throws IllegalArgumentException if invalid player is passed or Player is not 
+    present in the space.
+   */
+  public void removePlayer(int playerNum) throws IllegalArgumentException;
+  
+  /**
+   * Adds a valid player to the space.
+   * @param playerNum index of the player who needs to enter the space.
+   * @param playerName name of the player.
+   * @throws IllegalArgumentException thrown if invalid player is passed.
+   */
+  public void addPlayer(int playerNum, String playerName) throws IllegalArgumentException;
+  
+  /**
+   * Checks if a specific space is present in the space.
+   * @param item object reference for the item to check if its present in that space.
+   * @return if item so present in space, returns true, otherwise returns false.
+   * @throws IllegalArgumentException thrown if item is null or not valid.
+   */
+  public boolean hasItem(ItemList item) throws IllegalArgumentException;
 
   /**
-   * Gets the room numbers of the neighboring rooms.
-   *
-   * @return a list of integers representing the room numbers of neighbors
+   * Removes the item from the space.
+   * @param item object representing the item that needs to be removed from the space.
+   * @throws IllegalArgumentException thrown when invalid item is passed or item not present
+    in the space.
    */
-  List<Integer> getNeighborRoomNum();
-
+  public void removeItem(ItemList item) throws IllegalArgumentException;
+    
   /**
-   * Gets the list of items in the room or space.
-   *
-   * @return a list of ItemList objects present in the room
+   * Displays all the neighbor details of the space along with items in them.
+   * @return a string with details of all the neighbors of the space 
+    along with items present in them.
    */
-  List<ItemList> getItems();
-
+  public String displayNeighborDetails();
+ 
   /**
-   * Returns a string representation of the space.
-   *
-   * @return a string describing the space
+   * Displays only the details that need to be shown to the player.
+   * @return a string with details of space number and name in which player is present,
+    along with the items present in that space.
    */
-  String toString();
+  public String displayPlayerSpaceInfo();
+
+
 }

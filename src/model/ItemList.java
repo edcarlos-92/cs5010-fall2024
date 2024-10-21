@@ -3,99 +3,92 @@ package model;
 import java.util.Objects;
 
 /**
- * Represents an item in the game world with properties such as 
- * item number, room location, name, and damage value.
+ * This is the implementation class for the Items. It is 
+ extended from the Item Interface.
+ * It gives details of the items like the name, which room it is 
+  present in and how much damage it can cause to the target.
  */
 public final class ItemList implements Item {
+  
   private final int itemNum;
   private int itemRoom;
   private final String itemName;
   private final int itemDamage;
-
+  
   /**
-   * Constructs an ItemList with specified properties.
-   *
-   * @param itemNumSpec the unique identifier for the item
-   * @param itemRoomSpec the room number where the item is located
-   * @param itemNameSpec the name of the item
-   * @param itemDamageSpec the damage value of the item; must be greater than 0
-   * @throws IllegalArgumentException if damage is less than or equal to 0
+   * This is the constructor to initialize the parameters of the ItemList Class.
+   * @param itemNumVal This is the item number value given to the object. 
+    Items numbers start from 1.
+   * @param itemRoomNum This is the room number in which item is present.
+    room numbers are between 1 to total room count.
+   * @param name This is the name given to the item.
+   * @param damage value for the damage that the item can cause, which should be greater than 0.
+   * @throws IllegalArgumentException Throws an exception if invalid parameters are passed.
    */
-  public ItemList(int itemNumSpec, int itemRoomSpec, String itemNameSpec, int itemDamageSpec) 
-        throws IllegalArgumentException {
-    if (itemDamageSpec <= 0) {
-      throw new IllegalArgumentException("Damage cannot be 0 or negative.");
-    } else {
-      this.itemNum = itemNumSpec;
-      this.itemRoom = itemRoomSpec;
-      this.itemName = itemNameSpec;
-      this.itemDamage = itemDamageSpec;
+  public ItemList(int itemNumVal, int itemRoomNum, String name, int damage) 
+      throws IllegalArgumentException {
+    if (name == null || "".equals(name) || itemNumVal < 1 || itemRoomNum < 1 || damage <= 0) {
+      throw new IllegalArgumentException("Invalid parameters passed.");
     }
+    this.itemNum = itemNumVal;
+    this.itemRoom = itemRoomNum;
+    this.itemName = name;
+    this.itemDamage = damage;
   }
 
-  /**
-   * Gets the room number where the item is located.
-   *
-   * @return the room number as an integer
-   */
+  @Override
   public int getItemRoom() {
     return this.itemRoom;
   }
 
-  /**
-   * Gets the damage value of the item.
-   *
-   * @return the damage value as an integer
-   */
+  @Override
+  public int getItemNum() {
+    return this.itemNum;
+  }
+  
+  @Override
   public int getItemDamage() {
-    return this.itemDamage;
+    return this.itemDamage;    
   }
 
-  /**
-   * Gets the name of the item.
-   *
-   * @return the name of the item as a String
-   */
+  @Override
   public String getItemName() {
     return this.itemName;
   }
-
-  /**
-   * Returns a string representation of the item.
-   *
-   * @return a string describing the item
-   */
-  public String toString() {
-    return String.format("Item Num = %d, Item Room = %d, Item Name = %s, Item Damage = %d",
-              this.itemNum, this.itemRoom, this.itemName, this.itemDamage);
+  
+  public void updateRoom() {
+    this.itemRoom = 0;
   }
-
-  /**
-   * Compares this item to another object for equality.
-   *
-   * @param obj the object to compare to
-   * @return true if the objects are equal; false otherwise
-   */
+  
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(this.itemNum);
+    sb.append(". ");
+    sb.append(this.itemName);
+    sb.append(", Item Damage: ");
+    sb.append(this.itemDamage);
+    sb.append(", Item Room: ");
+    sb.append(this.itemRoom);
+    return sb.toString();    
+  }
+ 
+  @Override
   public boolean equals(Object obj) {
     if (this == obj) {
       return true;
-    } else if (!(obj instanceof ItemList)) {
-      return false;
-    } else {
-      ItemList other = (ItemList) obj;
-      return Objects.hash(new Object[]{this.itemNum, this.itemRoom, 
-          this.itemName, this.itemDamage}) 
-              == Objects.hash(new Object[]{other.itemNum, other.itemRoom, 
-                  other.itemName, other.itemDamage});
     }
+    if (!(obj instanceof ItemList)) {
+      return false;
+    }
+    ItemList other = (ItemList) obj;
+    return itemDamage == other.itemDamage && Objects.equals(itemName, other.itemName)
+        && itemNum == other.itemNum && itemRoom == other.itemRoom;
   }
-
-  /**
-   * Returns a hash code for this item.
-   *
-   * @return the hash code as an integer
-   */
+  
+  @Override
   public int hashCode() {
-    return Objects.hash(new Object[]{this.itemNum, this.itemRoom, this.itemName, this.itemDamage});
+    return Objects.hash(itemDamage, itemName, itemNum, itemRoom);
   }
+  
 }

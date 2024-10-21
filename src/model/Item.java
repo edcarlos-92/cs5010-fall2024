@@ -1,36 +1,42 @@
 package model;
 
 /**
- * Represents an item in the game world.
- * Each item has a room location, damage value, and a name.
+ * This is the Item interface. 
+ * Items represent the weapons used in the game.
+ * They are present in particular spaces.
  */
 public interface Item {
-    
-  /**
-   * Gets the room number where the item is located.
-   *
-   * @return the room number as an integer
-   */
-  int getItemRoom();
   
   /**
-   * Gets the damage value of the item.
-   *
-   * @return the damage value as an integer
+   * Gives the room number in which the item is present.
+   * The room number indexing starts from 1 and not 0.
+   * @return returns the room number in which the Item is present
    */
-  int getItemDamage();
+  public int getItemRoom();
   
   /**
-   * Gets the name of the item.
-   *
-   * @return the name of the item as a String
+   * gives the integer value for the item number.
+   * @return the item number for the item (starts from 1)
    */
-  String getItemName();
+  public int getItemNum();
   
   /**
-   * Returns a string representation of the item.
-   *
-   * @return a string describing the item
+   * Gives the damage amount associated with the item. 
+   * @return returns the damage as integer which cannot be less than 1.
    */
-  String toString();
+  public int getItemDamage();
+
+  /**
+   * Gives the name of the particular item.
+   * @return returns a string containing the name of the item.
+   */
+  public String getItemName();
+  
+  /**
+   * Returns the details of the Item like item number, name, damage and in which room it is present.
+   * @return returns the details as a string.
+   */
+  public String toString();
+
+
 }

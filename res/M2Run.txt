@@ -1,0 +1,51 @@
+total rows = 30, total cols = 23, WorldName =  Lucky Mario's Castle,
+roomCount = 21, itemCount = 22,
+Target = Target =  Doctor Lucky, Health = 50, Current Location = 1,
+Items = {1=1. Fire Flower, Item Damage: 3, Item Room: 13, 2=2. Super Mushroom, Item Damage: 2, Item Room: 19, 3=3. Cape Feather, Item Damage: 2, Item Room: 3, 4=4. Crepe Pan, Item Damage: 3, Item Room: 9, 5=5. Letter Opener, Item Damage: 4, Item Room: 12, 6=6. Shoe Horn, Item Damage: 3, Item Room: 16, 7=7. Sharp Knife, Item Damage: 4, Item Room: 3, 8=8. Revolver, Item Damage: 2, Item Room: 17, 9=9. Civil War Cannon, Item Damage: 2, Item Room: 2, 10=10. Ice Flower, Item Damage: 2, Item Room: 15, 11=11. Monkey Hand, Item Damage: 2, Item Room: 17, 12=12. Tight Hat, Item Damage: 4, Item Room: 3, 13=13. Piece of Rope, Item Damage: 2, Item Room: 1, 14=14. Silken Cord, Item Damage: 3, Item Room: 6, 15=15. Super Star, Item Damage: 1, Item Room: 11, 16=16. Koopa Shell, Item Damage: 2, Item Room: 14, 17=17. Boo Lantern, Item Damage: 2, Item Room: 8, 18=18. Yoshi Egg, Item Damage: 2, Item Room: 20, 19=19. Hammer Suit, Item Damage: 3, Item Room: 10, 20=20. Tanooki Leaf, Item Damage: 1, Item Room: 8, 21=21. P-Wing, Item Damage: 2, Item Room: 6, 22=22. Goomba Shoe, Item Damage: 3, Item Room: 21},
+Rooms = {1=Room Num = 1, Room Name = Mushroom Room, Neighbors = {20=Chain Chomp Pen, 5=Fire Flower Courtyard, 6=Star Chamber, 8=Underground Dungeon, 10=Goomba Garden}, Items = [13. Piece of Rope, Item Damage: 2, Item Room: 1], player = {}, coord = 8, 15, 14, 18, 2=Room Num = 2, Room Name = PowerUp Room, Neighbors = {16=Bob-omb Factory, 8=Underground Dungeon, 13=Question Block Vault}, Items = [9. Civil War Cannon, Item Damage: 2, Item Room: 2], player = {}, coord = 17, 18, 21, 22, 3=Room Num = 3, Room Name = Bowser Lair, Neighbors = {4=Warp Pipe Room, 7=Yoshi Nest, 13=Question Block Vault, 14=Thwomp Hall}, Items = [3. Cape Feather, Item Damage: 2, Item Room: 3, 7. Sharp Knife, Item Damage: 4, Item Room: 3, 12. Tight Hat, Item Damage: 4, Item Room: 3], player = {}, coord = 9, 24, 14, 27, 4=Room Num = 4, Room Name = Warp Pipe Room, Neighbors = {3=Bowser Lair, 6=Star Chamber, 7=Yoshi Nest, 13=Question Block Vault}, Items = [], player = {}, coord = 9, 20, 14, 24, 5=Room Num = 5, Room Name = Fire Flower Courtyard, Neighbors = {1=Mushroom Room, 20=Chain Chomp Pen, 6=Star Chamber}, Items = [], player = {}, coord = 3, 15, 8, 18, 6=Room Num = 6, Room Name = Star Chamber, Neighbors = {1=Mushroom Room, 4=Warp Pipe Room, 5=Fire Flower Courtyard, 7=Yoshi Nest}, Items = [14. Silken Cord, Item Damage: 3, Item Room: 6, 21. P-Wing, Item Damage: 2, Item Room: 6], player = {}, coord = 4, 18, 9, 21, 7=Room Num = 7, Room Name = Yoshi Nest, Neighbors = {3=Bowser Lair, 4=Warp Pipe Room, 6=Star Chamber, 15=Koopa Troop Hideout}, Items = [], player = {}, coord = 3, 21, 9, 25, 8=Room Num = 8, Room Name = Underground Dungeon, Neighbors = {1=Mushroom Room, 2=PowerUp Room, 18=Princess Peach Tower, 10=Goomba Garden, 13=Question Block Vault}, Items = [17. Boo Lantern, Item Damage: 2, Item Room: 8, 20. Tanooki Leaf, Item Damage: 1, Item Room: 8], player = {}, coord = 14, 12, 19, 18, 9=Room Num = 9, Room Name = Lava Pit, Neighbors = {19=Boo's Haunt, 10=Goomba Garden, 11=Treasure Room, 12=Green House}, Items = [4. Crepe Pan, Item Damage: 3, Item Room: 9], player = {}, coord = 7, 4, 13, 10, 10=Room Num = 10, Room Name = Goomba Garden, Neighbors = {1=Mushroom Room, 20=Chain Chomp Pen, 8=Underground Dungeon, 9=Lava Pit, 11=Treasure Room}, Items = [19. Hammer Suit, Item Damage: 3, Item Room: 10], player = {}, coord = 9, 10, 14, 15, 11=Room Num = 11, Room Name = Treasure Room, Neighbors = {18=Princess Peach Tower, 21=Cannon Room, 9=Lava Pit, 10=Goomba Garden}, Items = [15. Super Star, Item Damage: 1, Item Room: 11], player = {}, coord = 13, 5, 16, 10, 12=Room Num = 12, Room Name = Green House, Neighbors = {19=Boo's Haunt, 20=Chain Chomp Pen, 9=Lava Pit}, Items = [5. Letter Opener, Item Damage: 4, Item Room: 12], player = {}, coord = 4, 5, 7, 12, 13=Room Num = 13, Room Name = Question Block Vault, Neighbors = {16=Bob-omb Factory, 2=PowerUp Room, 3=Bowser Lair, 4=Warp Pipe Room, 8=Underground Dungeon}, Items = [1. Fire Flower, Item Damage: 3, Item Room: 13], player = {}, coord = 14, 18, 17, 25, 14=Room Num = 14, Room Name = Thwomp Hall, Neighbors = {3=Bowser Lair, 15=Koopa Troop Hideout}, Items = [16. Koopa Shell, Item Damage: 2, Item Room: 14], player = {}, coord = 5, 27, 19, 29, 15=Room Num = 15, Room Name = Koopa Troop Hideout, Neighbors = {7=Yoshi Nest, 14=Thwomp Hall}, Items = [10. Ice Flower, Item Damage: 2, Item Room: 15], player = {}, coord = 2, 25, 5, 29, 16=Room Num = 16, Room Name = Bob-omb Factory, Neighbors = {2=PowerUp Room, 13=Question Block Vault}, Items = [6. Shoe Horn, Item Damage: 3, Item Room: 16], player = {}, coord = 17, 22, 20, 25, 17=Room Num = 17, Room Name = Coin Vault, Neighbors = {}, Items = [8. Revolver, Item Damage: 2, Item Room: 17, 11. Monkey Hand, Item Damage: 2, Item Room: 17], player = {}, coord = 20, 25, 22, 29, 18=Room Num = 18, Room Name = Princess Peach Tower, Neighbors = {21=Cannon Room, 8=Underground Dungeon, 11=Treasure Room}, Items = [], player = {}, coord = 16, 6, 20, 12, 19=Room Num = 19, Room Name = Boo's Haunt, Neighbors = {9=Lava Pit, 12=Green House}, Items = [2. Super Mushroom, Item Damage: 2, Item Room: 19], player = {}, coord = 2, 2, 7, 5, 20=Room Num = 20, Room Name = Chain Chomp Pen, Neighbors = {1=Mushroom Room, 5=Fire Flower Courtyard, 10=Goomba Garden, 12=Green House}, Items = [18. Yoshi Egg, Item Damage: 2, Item Room: 20], player = {}, coord = 5, 12, 9, 15, 21=Room Num = 21, Room Name = Cannon Room, Neighbors = {18=Princess Peach Tower, 11=Treasure Room}, Items = [22. Goomba Shoe, Item Damage: 3, Item Room: 21], player = {}, coord = 16, 2, 22, 6}
+
+
+Example Run for Model Requirements:
+Display Space Information in Required Format
+Player created and added to Room 1:
+Room Num = 1, Room Name = Mushroom Room, Neighbors = {20=Chain Chomp Pen, 5=Fire Flower Courtyard, 6=Star Chamber, 8=Underground Dungeon, 10=Goomba Garden}, Items = [13. Piece of Rope, Item Damage: 2, Item Room: 1], player = {10=carlos}, coord = 8, 15, 14, 18
+
+**Space Details updated after Item is picked
+Player 10 picked Item 13 from room 1
+Player details: 
+Player Num: 10
+Player Name: carlos
+Player in Room: Num: 1 ( Mushroom Room ) 
+Max Number of Items allowed to pick: 2
+Items Picked:
+13. Piece of Rope, Item Damage: 2
+
+
+**Space Details Updated after Player is moved
+Player 10 moved to room 20
+Player details: 
+Player Num: 10
+Player Name: carlos
+Player in Room: Num: 20 ( Chain Chomp Pen ) 
+Max Number of Items allowed to pick: 2
+Items Picked:
+13. Piece of Rope, Item Damage: 2
+
+Player Space Details: Room Num = 20, Room Name = Chain Chomp Pen, Neighbors = {1=Mushroom Room, 5=Fire Flower Courtyard, 10=Goomba Garden, 12=Green House}, Items = [18. Yoshi Egg, Item Damage: 2, Item Room: 20], player = {10=carlos}, coord = 5, 12, 9, 15
+
+**Look Around Details:
+Current Room Num = 20, Current Room Name = Chain Chomp Pen 
+Neighboring Rooms with Items: 
+Neighbor Num = 1 Neighbor Name = Mushroom Room
+Items in Room:
+
+Neighbor Num = 5 Neighbor Name = Fire Flower Courtyard
+Items in Room:
+
+Neighbor Num = 10 Neighbor Name = Goomba Garden
+Items in Room:
+19. Hammer Suit, Item Damage: 3, Item Room: 10
+
+Neighbor Num = 12 Neighbor Name = Green House
+Items in Room:
+5. Letter Opener, Item Damage: 4, Item Room: 12

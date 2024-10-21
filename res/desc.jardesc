@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jardesc>
-    <jar path="m1-the-world/res/m1-the-world.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/m1-the-world/res/desc.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <jar path="m2-synchronous-controller/res/m2-synchronous-controller.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/m2-synchronous-controller/res/desc.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
-    <manifest generateManifest="true" mainClassHandleIdentifier="=m1-the-world/src&lt;driver{Main.java[Main" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+    <manifest generateManifest="true" mainClassHandleIdentifier="=m2-synchronous-controller/src&lt;driver{Main.java[Main" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
         <sealing sealJar="true">
             <packagesToSeal/>
             <packagesToUnSeal/>
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <folder path="/m1-the-world/res"/>
-        <file path="/m1-the-world/.classpath"/>
-        <file path="/m1-the-world/.gitignore"/>
-        <file path="/m1-the-world/.project"/>
-        <file path="/m1-the-world/README.md"/>
-        <javaElement handleIdentifier="=m1-the-world/src"/>
-        <javaElement handleIdentifier="=m1-the-world/test"/>
+        <folder path="/m2-synchronous-controller/res"/>
+        <file path="/m2-synchronous-controller/.classpath"/>
+        <file path="/m2-synchronous-controller/.project"/>
+        <javaElement handleIdentifier="=m2-synchronous-controller/src"/>
+        <javaElement handleIdentifier="=m2-synchronous-controller/test"/>
     </selectedElements>
 </jardesc>
